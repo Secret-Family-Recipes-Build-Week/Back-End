@@ -1,0 +1,27 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "The Backend for Recipe Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Secret-Family-Recipes-Build-Week/Back-End.git"
+  },
+  "author": "Emily Low",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Secret-Family-Recipes-Build-Week/Back-End/issues"
+  },
+  "homepage": "https://github.com/Secret-Family-Recipes-Build-Week/Back-End#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.21.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
