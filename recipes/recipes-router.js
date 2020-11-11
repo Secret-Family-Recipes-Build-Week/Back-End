@@ -31,3 +31,5 @@ router.post('/recipes', (req, res) => {
 router.delete('./recipes/:id', (req, res) => {
 
 })
+
+module.exports = router;

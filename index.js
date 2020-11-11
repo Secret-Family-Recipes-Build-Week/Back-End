@@ -1,3 +1,4 @@
+require('dotenv').config();
 
 //Equivalent to import
 const express = require("express");
@@ -6,7 +7,7 @@ const recipesRouter = require("./recipes/recipes-router");
 
 //Gives instance of express used to configure server
 const server = express();
-const port = 4000;
+const port = process.env.PORT || 3000;
 
 server.use(express.json);
 
@@ -15,7 +16,7 @@ server.use(recipesRouter);
 
 
 
-//!!I believe this enables default next error response. Should figure out how exactly the trigger works.
+//Error handling middleware
 server.use((err, req, res, next) => {
     console.log(err);
 
@@ -35,3 +36,4 @@ server.get('/', (req, res) => {
 server.listen(port, () => {
     console.log(`Running at http://localhost:${port}`)
 })
+
