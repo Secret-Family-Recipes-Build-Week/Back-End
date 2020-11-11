@@ -7,3 +7,4 @@ const knex = require("knex")
 const knexfile = require("../knexfile");
 
 module.exports = knex(knexfile)
+//Would export knexfile.developement if knexfile specified developement en

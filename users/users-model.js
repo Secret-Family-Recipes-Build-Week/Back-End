@@ -4,7 +4,8 @@ module.exports = {addUser, getAllUsers, findUserByID, findUserBy, addUser}
 
 function addUser(user) {
     //!! Don't get the .insert(users, "id") here, "id" part specifically
-    const [id] = await db("users").insert(user, "id")
+    //Teacher example shows it can be done without that?
+    const [id] = await db("users").insert(user)
 
     return findUserByID(id);
 }
