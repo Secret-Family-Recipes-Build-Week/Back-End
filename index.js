@@ -1,15 +1,19 @@
-require('dotenv').config();
+
 
 //Equivalent to import
 const express = require("express");
 const usersRouter = require("./users/users-router");
 const recipesRouter = require("./recipes/recipes-router");
 
+//Possibly helpful
+const helmet = require("helmet");
+const cors = require("cors");
+
 //Gives instance of express used to configure server
 const server = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
-server.use(express.json);
+server.use(express.json());
 
 server.use(usersRouter);
 server.use(recipesRouter);
@@ -23,6 +27,7 @@ server.use((err, req, res, next) => {
     res.status(500).json({
         message: "Something went wrong"
     })
+    // next();
 })
 
 server.get('/', (req, res) => {
@@ -31,6 +36,8 @@ server.get('/', (req, res) => {
     })
 });
 
+
+//!!! POtentially causing weird "port in use" bug?
 //Remove for hosted version?
 //Listen monitors port on computer for any incoming expressions
 server.listen(port, () => {
