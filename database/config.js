@@ -6,5 +6,5 @@ const knex = require("knex")
 //The configuration of knex that will be used
 const knexfile = require("../knexfile");
 
-module.exports = knex(knexfile)
+module.exports = knex(knexfile.development)
 //Would export knexfile.developement if knexfile specified developement en
