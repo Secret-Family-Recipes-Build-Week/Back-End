@@ -1,13 +1,13 @@
 const db = require("../database/config");
 
-module.exports = {addUser, getAllUsers, findUserByID, findUserBy, addUser}
+module.exports = {addUser, getAllUsers, findUserById, findByUsername, addUser}
 
-function addUser(user) {
+async function  addUser(user) {
     //!! Don't get the .insert(users, "id") here, "id" part specifically
     //Teacher example shows it can be done without that?
-    const [id] =  db("users").insert(user)
+    const [id] = await db("users").insert(user)
 
-    return findUserByID(id);
+    return findUserById(id);
 }
 
 function getAllUsers() {
@@ -15,14 +15,13 @@ function getAllUsers() {
     
 }
 
-function findUserByID(id) {
-    //!! Check
-    return db("users").select("id", "username").filter("id", id).first();
+function findUserById(id) {
+    return db("users").select("id", "username").where({id}).first();
 }
 
-function findUserBy(filter) {
+function findByUsername(username) {
     //!! Check
-    return db("users").select("id", "username").where(filter);
+    return db("users").where({username}).first()
 }
 
 

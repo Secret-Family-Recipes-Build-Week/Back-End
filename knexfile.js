@@ -10,7 +10,7 @@ module.exports = {
 	seeds: {
 		directory: "./database/seeds",
   },
-  //!!Don't understand this bit, or its necessary
+  //Code that allows for foreign keys in knex
 	pool: {
 		afterCreate: (conn, done) => {
 			conn.run("PRAGMA foreign_keys = ON", done)
