@@ -111,8 +111,85 @@ async function addRecipe(recipe) {
 
 }
 
-function updateRecipe(changes, id) {
+async function updateRecipe(changes, id) {
+    console.log("id", id)
+    const recipe = await db("recipes").where({id}).first();
+    // console.log(recipe)
 
+    let baseUpdate = {...recipe, title: changes.title, source: changes.source, category: changes.category, user_id: changes.user_id}
+
+    console.log(baseUpdate);
+
+    if(recipe) {
+        await db('recipes')
+            .where("id", id)
+            .first()
+            .update(baseUpdate)
+    }
+    else {
+        return "Recipe not found"
+    }
+
+    const startingIngredients = await db("ingredients")
+    .join("recipes", "recipes.id", "ingredients.recipe_id")
+    .where("recipe_id", id)
+   
+    //! Why can't I append map to the end of the above await?
+   let ingNames = startingIngredients.map(name => {
+    return name.ingredient;
+    })
+    
+
+    // console.log("start ing", startingIngredients);
+    // console.log("Ing names", ingNames)
+
+    const startingInstructions = await db("instructions")
+    .join("recipes", "recipes.id", "instructions.recipe_id")
+    .where("recipe_id", id)
+   
+    //! Why can't I append map to the end of the above await?
+   let instNames = startingInstructions.map(name => {
+    return name.instruction;
+    })
+
+    //Update ingredients
+    
+    if (ingNames !== changes.ingredients) {
+        // console.log("Ingredient change");
+        await db("ingredients")
+        .join('recipes', 'recipes.id', 'ingredients.recipe_id')
+        .select('ingredients.*')
+        .where('ingredients.recipe_id', id)
+        .del()
+
+        changes.ingredients.forEach(async ingName => {
+            // console.log(ingName);
+            fullIng = {ingredient: ingName.ingredient, recipe_id: id}
+            // console.log(fullIng)
+            await db('ingredients').insert(fullIng)
+        })
+    }
+
+    //Update ingredients
+    
+    if (instNames !== changes.instructions) {
+        // console.log("Ingredient change");
+        await db("instructions")
+        .join('recipes', 'recipes.id', 'instrutions.recipe_id')
+        .select('instructions.*')
+        .where('instructions.recipe_id', id)
+        .del()
+
+        changes.instructions.forEach(async instName => {
+            console.log("instName", instName)
+            fullInst = {instruction: instName.instruction, recipe_id: id}
+           console.log("full instruction", fullInst)
+            await db('instructions').insert(fullInst)
+        })
+    }
+
+
+    return findById(id);
 }
 
 function removeRecipe(id) {

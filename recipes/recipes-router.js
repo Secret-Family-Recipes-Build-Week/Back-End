@@ -31,7 +31,8 @@ router.get('/recipes/:id', async (req, res, next) => {
 //This will edit ingredients and steps table as well as recipe table, using model
 router.put('/recipes/:id',  async (req,res, next) => {
     try {
-
+        const edited = await Recipes.updateRecipe(req.body, req.params.id);
+        res.json(edited)
        
     } catch(err){
         next(err)
