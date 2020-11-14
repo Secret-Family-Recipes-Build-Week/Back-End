@@ -29,9 +29,10 @@ router.get('/recipes/:id', async (req, res, next) => {
 })
 
 //This will edit ingredients and steps table as well as recipe table, using model
-router.put('/recipes/:id', (req,res, next) => {
+router.put('/recipes/:id',  async (req,res, next) => {
     try {
 
+       
     } catch(err){
         next(err)
     }
@@ -39,9 +40,12 @@ router.put('/recipes/:id', (req,res, next) => {
 })
 
 //Will add recipes, steps, and ingredients all at once, using model
-router.post('/recipes', async (req, res) => {
+router.post('/recipes', async (req, res, next) => {
     try {
-
+        // console.log("req.body", req.body)
+       
+        const newRecipe = await Recipes.addRecipe(req.body)
+        res.json(newRecipe);
     } catch(err){
         next(err)
     }

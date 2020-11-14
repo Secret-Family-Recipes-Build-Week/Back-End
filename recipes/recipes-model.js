@@ -12,17 +12,17 @@ async function getAllRecipes() {
     try{
       
       let baseRecipes = await db("recipes");
-      console.log("BR", baseRecipes)
+    //   console.log("BR", baseRecipes)
       const promises = baseRecipes.map(async recipe => {
           let currentId = recipe.id;
           let updatedRecipe = findById(currentId);
-          console.log("UR", updatedRecipe)
+        //   console.log("UR", updatedRecipe)
           return updatedRecipe
       })
 
       let finalRecipes = await Promise.all(promises)
 
-      console.log("FR", finalRecipes)
+    //   console.log("FR", finalRecipes)
 
       return finalRecipes;
 
@@ -61,18 +61,6 @@ async function getAllRecipes() {
     // }
    //Promise.all()
     
-    
-  
-
-
-
-//   temp.forEach(recipe => {
-//      let tempRecipe = findById(recipe.id)
-//      final.push({...recipe, tempRecipe})
-//   })
-
-//     return final;
-    // return db("recipes")
 }
 
 async function findById(id) {
@@ -96,8 +84,30 @@ async function findById(id) {
 }
 
 
-function addRecipe(recipe) {
+async function addRecipe(recipe) {
+   
+    console.log("input", recipe)
+    
+    let baseRecipe = {title: recipe.title, source: recipe.source, category: recipe.category, user_id: recipe.user_id}
+    
+    let ingredients = recipe.ingredients;
+    let instructions = recipe.instructions;
+   
+    
+   let id = await db("recipes").insert(baseRecipe)
 
+    ingredients.forEach(async ing => {
+        let ingInfo = {ingredient: ing.ingredient, recipe_id: id[0]}
+        console.log(ingInfo)
+        await db('ingredients').insert(ingInfo)
+    })
+
+    instructions.forEach(async inst => {
+        let insInfo = {instruction: inst.instruction, recipe_id: id}
+        await db('instructions').insert(insInfo)
+    })
+    
+    return findById(id);
 
 }
 
