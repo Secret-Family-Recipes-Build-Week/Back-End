@@ -91,18 +91,18 @@ router.post('/auth/login', async (req, res, next) => {
     }
 })
 
-router.get("/logout", async(req, res, next) => {
-    try {
-        req.session.destory((err) => {
-            if(err) {
-                next(err)
-            } else {
-                res.status(204).end()
-            }
-        })
-    } catch(err) {
-        next(err)
-    }
-})
+// router.get("/auth/logout", async(req, res, next) => {
+//     try {
+//         req.session.destory((err) => {
+//             if(err) {
+//                 next(err)
+//             } else {
+//                 res.status(204).end()
+//             }
+//         })
+//     } catch(err) {
+//         next(err)
+//     }
+// })
 
 module.exports = router;
