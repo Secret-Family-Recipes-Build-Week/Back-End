@@ -8,7 +8,7 @@ const router = express.Router();
 //!!May add next to all of these 
 
 //This will add ingredients and steps to the recipes, using model
-router.get('/recipes', async (req, res, next) => {
+router.get('/recipes', restrict, async (req, res, next) => {
     try {   
         res.json(await Recipes.getAllRecipes())
 
@@ -19,7 +19,7 @@ router.get('/recipes', async (req, res, next) => {
 })
 
 //This will add ingredients and steps to the recipe, using model
-router.get('/recipes/:id', async (req, res, next) => {
+router.get('/recipes/:id', restrict, async (req, res, next) => {
     const id = req.params.id;
     try {
         res.json(await Recipes.findById(id))
@@ -29,7 +29,7 @@ router.get('/recipes/:id', async (req, res, next) => {
 })
 
 //This will edit ingredients and steps table as well as recipe table, using model
-router.put('/recipes/:id',  async (req,res, next) => {
+router.put('/recipes/:id', restrict, async (req,res, next) => {
     try {
         const edited = await Recipes.updateRecipe(req.body, req.params.id);
         res.json(edited)
@@ -41,7 +41,7 @@ router.put('/recipes/:id',  async (req,res, next) => {
 })
 
 //Will add recipes, steps, and ingredients all at once, using model
-router.post('/recipes', async (req, res, next) => {
+router.post('/recipes', restrict, async (req, res, next) => {
     try {
         // console.log("req.body", req.body)
        
@@ -53,7 +53,7 @@ router.post('/recipes', async (req, res, next) => {
 })
 
 //Ensure deletion properly cascades
-router.delete('/recipes/:id', async (req, res, next) => {
+router.delete('/recipes/:id', restrict, async (req, res, next) => {
     try {
         res.json(await Recipes.removeRecipe(req.params.id));
 
