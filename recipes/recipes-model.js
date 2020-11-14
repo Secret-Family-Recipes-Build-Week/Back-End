@@ -6,22 +6,47 @@ function getShortRecipe() {
     return db('recipes');
 }
 
+//Breaks after delete
 async function getAllRecipes() {
+    
     try{
-      let counted = await db("recipes").count("id");
-      let length = counted[0]['count(`id`)']
-      let recipeArray = [];
-      for(let i = 1; i <= length; i++) {
-        let recipe = await findById(i);
-        // console.log("recipe", recipe)
-        recipeArray.push(recipe)
-      }
-    //   console.log("ra", recipeArray);
-      return recipeArray;
+      
+      let baseRecipes = await db("recipes");
+      console.log("BR", baseRecipes)
+      const promises = baseRecipes.map(async recipe => {
+          let currentId = recipe.id;
+          let updatedRecipe = findById(currentId);
+          console.log("UR", updatedRecipe)
+          return updatedRecipe
+      })
 
-    } catch {
+      let finalRecipes = await Promise.all(promises)
+
+      console.log("FR", finalRecipes)
+
+      return finalRecipes;
+
+    } catch (err) {
         return "Something went wrong when compiling recipes"
     }
+    
+    //Break upon delete
+    // try{
+    //   let counted = await db("recipes").count("id");
+    //   let length = counted[0]['count(`id`)']
+    //   let recipeArray = [];
+    //   for(let i = 1; i <= length; i++) {
+    //     let recipe = await findById(i);
+    //     // console.log("recipe", recipe)
+    //     recipeArray.push(recipe)
+    //   }
+    // //   console.log("ra", recipeArray);
+    //   return recipeArray;
+
+    // } catch {
+    //     return "Something went wrong when compiling recipes"
+    // }
+    /// ------------------------
     // try {
     //     return await db("recipes")
     //         .innerJoin("ingredients", "ingredients.recipe_id", "recipes.id")
@@ -61,18 +86,13 @@ async function findById(id) {
         // console.log(ingredientData)
         parentData.ingredients = ingredientData
         parentData.instructions = instructionData
-        console.log(parentData)
+        // console.log(parentData)
         return parentData;
         // return db("recipes").where({id}).first();
     } catch(err) {
         return "Something went wrong when compiling recipes"
     }
-
-
-
-
- return db("recipes").where({id}).first();
-    
+ 
 }
 
 
@@ -86,5 +106,5 @@ function updateRecipe(changes, id) {
 }
 
 function removeRecipe(id) {
-
+   return db("recipes").where({id}).delete()
 }

@@ -48,8 +48,9 @@ router.post('/recipes', async (req, res) => {
 })
 
 //Ensure deletion properly cascades
-router.delete('./recipes/:id', (req, res) => {
+router.delete('/recipes/:id', async (req, res, next) => {
     try {
+        res.json(await Recipes.removeRecipe(req.params.id));
 
     } catch(err){
         next(err)
