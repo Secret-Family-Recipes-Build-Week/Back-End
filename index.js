@@ -6,8 +6,10 @@ const express = require("express");
 const usersRouter = require("./users/users-router");
 const recipesRouter = require("./recipes/recipes-router");
 
+
 //Possibly helpful
 const helmet = require("helmet");
+const  cors = require('cors');
 
 
 //Gives instance of express used to configure server
@@ -15,7 +17,7 @@ const server = express();
 const port = process.env.PORT || 5000;
 
 server.use(express.json());
-
+server.use(cors());
 server.use(usersRouter);
 server.use(recipesRouter);
 
@@ -33,7 +35,7 @@ server.use((err, req, res, next) => {
 
 server.get('/', (req, res) => {
     res.json({
-        message: "API is running"
+        message: "The API is running."
     })
 });
 
@@ -42,6 +44,6 @@ server.get('/', (req, res) => {
 //Remove for hosted version?
 //Listen monitors port on computer for any incoming expressions
 server.listen(port, () => {
-    console.log(`Running at http://localhost:${port}`)
+    console.log(`Currently running at http://localhost:${port}`)
 })
 
