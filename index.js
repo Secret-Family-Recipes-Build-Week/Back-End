@@ -8,7 +8,7 @@ const recipesRouter = require("./recipes/recipes-router");
 
 //Possibly helpful
 const helmet = require("helmet");
-const cors = require("cors");
+
 
 //Gives instance of express used to configure server
 const server = express();
