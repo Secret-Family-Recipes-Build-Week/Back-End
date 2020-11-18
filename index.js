@@ -6,8 +6,10 @@ const express = require("express");
 const usersRouter = require("./users/users-router");
 const recipesRouter = require("./recipes/recipes-router");
 
+
 //Possibly helpful
 const helmet = require("helmet");
+const  cors = require('cors');
 
 
 //Gives instance of express used to configure server
@@ -15,7 +17,7 @@ const server = express();
 const port = process.env.PORT || 5000;
 
 server.use(express.json());
-
+server.use(cors());
 server.use(usersRouter);
 server.use(recipesRouter);
 
