@@ -35,7 +35,7 @@ server.use((err, req, res, next) => {
 
 server.get('/', (req, res) => {
     res.json({
-        message: "API is running"
+        message: "The API is running."
     })
 });
 
@@ -44,6 +44,6 @@ server.get('/', (req, res) => {
 //Remove for hosted version?
 //Listen monitors port on computer for any incoming expressions
 server.listen(port, () => {
-    console.log(`Running at http://localhost:${port}`)
+    console.log(`Currently running at http://localhost:${port}`)
 })
 
